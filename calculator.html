@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ontario Workforce Priority Stream Calculator</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 1.5rem;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .calculator {
+            width: 100%;
+            max-width: 600px;
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        h1 {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+        p.desc {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--text-main);
+            background-color: var(--surface);
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: auto;
+        }
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .calc-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+        }
+        .calc-button:hover {
+            background-color: var(--primary-hover);
+        }
+        .total-card {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            text-align: center;
+            position: sticky;
+            bottom: 20px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+        .total-label {
+            font-size: 1rem;
+            color: #1e3a8a;
+            font-weight: 500;
+        }
+        .total-score {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+            margin-top: 0.5rem;
+        }
+        @media (max-width: 480px) {
+            .calculator {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>OINP Points Calculator</h1>
+        <p class="desc">Ontario Workforce Priority Stream</p>
+        
+        <form id="calc-form">
+            <div class="form-group">
+                <label>1. NOC TEER category</label>
+                <select class="score-input">
+                    <option value="0">Select an option...</option>
+                    <option value="9">TEER 0 or 1 (+9 pts)</option>
+                    <option value="6">TEER 2 or 3 (+6 pts)</option>
+                    <option value="0">TEER 4 or 5 (+0 pts)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>2. Broad Occupational Category</label>
+                <select class="score-input">
+                    <option value="0">Select an option...</option>
+                    <option value="10">Category 3 - Health (+10 pts)</option>
+                    <option value="8">Category 7 - Trades, transport (+8 pts)</option>
+                    <option value="6">Category 2 - Sciences (+6 pts)</option>
+                    <option value="4">Category 0, 1, 4, 8, 9 (+4 pts)</option>
+                    <option value="2">Category 5, 6 (+2 pts)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>3. Hourly Wage</label>
+                <select class="score-input">
+                    <option value="0">Select an option...</option>
+                    <option value="15">$40.00/hour or higher (+15 pts)</option>
+                    <option value="12">$35.00 to $39.99/hour (+12 pts)</option>
+                    <option value="10">$30.00 to $34.99/hour (+10 pts)</option>
+                    <option value="8">$25.00 to $29.99/hour (+8 pts)</option>
+                    <option value="5">$20.00 to $24.99/hour (+5 pts)</option>
+                    <option value="0">Less than $20.00/hour (+0 pts)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>4. Ontario work exp. (in job offer position)</label>
+                <select class="score-input">
+                    <option value="0">Select an option...</option>
+                    <option value="18">24 months or more (+18 pts)</option>
+                    <option value="15">13 to 24 months (+15 pts)</option>
+                    <option value="12">6 to 12 months (+12 pts)</option>
+                    <option value="0">Less than 6 months (+0 pts)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>5. Highest earnings history (in a single year)</label>
+                <select class="score-input">
+                    <option value="0">Select an option...</option>
+                    <option value="8">$70,000 or more (+8 pts)</option>
+                    <option value="6">$50,000 to $69,999 (+6 pts)</option>
+                    <option value="4">$30,000 to $49,999 (+4 pts)</option>
+                    <option value="0">Under $30,000 (+0 pts)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>6. Canadian legal status</label>
+                <select class="score-input">
+                    <option value="0">Select an option...</option>
+                    <option value="10">Valid work permit (+10 pts)</option>
+                    <option value="5">Valid study permit (+5 pts)</option>
+                    <option value="0">None / Other (+0 pts)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>7. Canadian educational credentials</label>
+                <select class="score-input">
+                    <option value="0">Select an option...</option>
+                    <option value="10">More than one credential (+10 pts)</option>
+                    <option value="5">One credential (+5 pts)</option>
+                    <option value="0">None (+0 pts)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>8. Official language ability (CLB level)</label>
+                <select class="score-input">
+                    <option value="0">Select an option...</option>
+                    <option value="15">CLB 9 or higher (+15 pts)</option>
+                    <option value="12">CLB 8 (+12 pts)</option>
+                    <option value="8">CLB 7 (+8 pts)</option>
+                    <option value="4">CLB 6 (+4 pts)</option>
+                    <option value="0">CLB 5 or lower (+0 pts)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>9. Official languages known</label>
+                <select class="score-input">
+                    <option value="0">Select an option...</option>
+                    <option value="10">2 official languages (+10 pts)</option>
+                    <option value="5">1 official language (+5 pts)</option>
+                    <option value="0">None proven (+0 pts)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>10. Job offer location</label>
+                <select class="score-input">
+                    <option value="0">Select an option...</option>
+                    <option value="15">Northern Ontario (+15 pts)</option>
+                    <option value="10">Eastern, Central, or SW Ontario (+10 pts)</option>
+                    <option value="5">Inside GTA (except Toronto) (+5 pts)</option>
+                    <option value="0">City of Toronto (+0 pts)</option>
+                </select>
+            </div>
+
+            <button type="button" id="calc-btn" class="calc-button">Calculate Final Score</button>
+        </form>
+
+        <div class="total-card">
+            <div class="total-label">Total Estimated Score</div>
+            <div class="total-score" id="total">0</div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.score-input');
+        const totalDisplay = document.getElementById('total');
+        const calcBtn = document.getElementById('calc-btn');
+
+        function calculateTotal() {
+            let sum = 0;
+            inputs.forEach(input => {
+                sum += parseInt(input.value) || 0;
+            });
+            totalDisplay.textContent = sum;
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('change', calculateTotal);
+        });
+
+        calcBtn.addEventListener('click', calculateTotal);
+    </script>
+</body>
+</html>
